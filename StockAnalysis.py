@@ -26,6 +26,7 @@ class StockAnalysis:
         else:
             print("An Error Occured, no data retrived")
 
+    # Implement the following methods
     # Method to plot data via a histogram and boxplot Part A
 
     # Method to perform statistical analysis, statistical intervals and hypothesis test Part B and C
