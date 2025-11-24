@@ -19,13 +19,10 @@ Ensure you have **Python 3.8+** installed. You will need the following libraries
 * `yfinance` (Data fetching)
 * `pandas` (Data manipulation)
 * `matplotlib` & `seaborn` (Data visualization)
-* `scipy` (Statistical calculations)
-* `scikit-learn` (Machine Learning algorithms)
 
 ## Installation
 1.  Clone this repository or extract the project files.
 2.  Open your terminal/command prompt to the project directory.
 3.  Install the required dependencies using `pip`:
 
-```bash
-pip install yfinance pandas matplotlib seaborn scikit-learn scipy
+
