@@ -8,5 +8,5 @@ def fetch_csv(company_ticker):
     print(ticker.financials)
 
     data = yf.download(ticker, start='2023-01-01', end='2024-01-01')
-
+    print(1)
 
