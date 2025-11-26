@@ -17,7 +17,16 @@ class StockAnalysis:
 
     # Implement the following methods
 
-    # Method to fetch stock data for a given ticker and range
+    """ 
+    Method to fetch stock data for a given ticker and range
+
+    For the given list of tickers intervals and range you are given 
+        Open Price: price at the start of the day
+        High Price: price high of one share for a given day
+        Low Price: price low of one share for  a given day
+        Close Price: price of one share  at the end of the day
+        Volume: Number of shares traded for a given day
+    """
     def fetch_data(self):
         # fetch data 
         print(f"Downloading {self.tickers} data...")
@@ -43,21 +52,30 @@ class StockAnalysis:
             print(f"Error saving file: {e}")
     
     # Method to plot data via a histogram and boxplot Part A
-    def plot_data(self):
+    # ticker_index (int) 
+    # column (str)
+    def plot_histogram(self, ticker_index, column, percent_change = False):
         if self.data is None:
             print("No data to plot. Run fetch_data() first.")
             return
         
-        
-        for ticker in self.tickers:
-            try:
-                self.data[ticker]['Close'].plot(label=ticker)
-            except KeyError:
-                print(f"Could not find data for {ticker}")
+        if not percent_change:
+            plt.hist(self.data[self.tickers[ticker_index]][column], edgecolor='black')
+            plt.xlabel(f"{column} Prices")
+            plt.ylabel("Frequency")
+            plt.title(f"{column} Price Frequency {self.start_date} to {self.end_date} n={self.data.shape[0]}")
+            plt.show()
+        else:
+            plt.hist(self.data[self.tickers[ticker_index]][column].pct_change(), edgecolor='black')
+            plt.xlabel(f"Percent Change in Close Price")
+            plt.ylabel("Frequency")
+            plt.title(f"Percent change in {column} Price Frequency {self.start_date} to {self.end_date} n={self.data.shape[0]}")
+            plt.show()
 
-        plt.title("Close Prices Comparison")
-        plt.legend()
-        plt.show()
+    def plot_botplot(self):
+        if self.data is None:
+            print("No data to plot. Run fetch_data() first.")
+            return
 
     # Method to perform statistical analysis, statistical intervals and hypothesis test Part B and C
 
@@ -68,11 +86,11 @@ class StockAnalysis:
 if __name__ == "__main__":
     # Example: Fetch a set of stock data from Jan 1, 2024 to today
     sa1 = StockAnalysis(tickers=["NVDA", "AMD", "INTC"],
-        start_date="2024-01-01",
+        start_date="2020-01-01",
         end_date=datetime.today().strftime('%Y-%m-%d'),
         interval="1d",
         path="stock_data.csv"
     )
 
     sa1.fetch_data()
-    sa1.plot_data()
+    sa1.plot_histogram(0, 'Close', True)
