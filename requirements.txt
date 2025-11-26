@@ -1,1 +1,5 @@
 yfinance
+matplotlib
+datetime
+scipy
+scikit-learn
