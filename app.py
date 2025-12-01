@@ -14,7 +14,7 @@ from StockAnalysis import StockAnalysis
 # Page configuration
 st.set_page_config(
     page_title="BE 2100 Stock Analysis",
-    page_icon="📈",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -176,13 +176,13 @@ def create_ml_scatter(sa, ticker_index):
 
 def main():
     # Header
-    st.title("📈 BE 2100 Stock Market Analysis Tool")
+    st.title("BE 2100 Stock Market Analysis Tool")
     st.markdown("**Professional Stock Analysis with Statistical Methods, Machine Learning & Technical Indicators**")
     st.markdown("---")
     
     # Sidebar
     with st.sidebar:
-        st.header("⚙️ Configuration")
+        st.header("Configuration")
         
         # Ticker selection
         default_tickers = ["NVDA", "AMD", "MSFT", "AAPL"]
@@ -213,11 +213,11 @@ def main():
         )
         
         # Load data button
-        if st.button("🔄 Load Data", type="primary", use_container_width=True):
+        if st.button("Load Data", type="primary", use_container_width=True):
             st.session_state.data_loaded = False
-        
+
         st.markdown("---")
-        st.markdown("### 📊 About")
+        st.markdown("### About")
         st.markdown("""
         This tool provides:
         - Statistical Analysis
@@ -261,16 +261,16 @@ def main():
     
     # Main content tabs
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "📊 Overview", 
-        "📈 Technical Analysis", 
-        "🤖 ML Predictions", 
-        "📉 Risk Metrics",
-        "📋 Full Report"
+        "Overview",
+        "Technical Analysis",
+        "ML Predictions",
+        "Risk Metrics",
+        "Full Report"
     ])
     
     # Tab 1: Overview
     with tab1:
-        st.header(f"📊 {selected_ticker} Overview")
+        st.header(f"{selected_ticker} Overview")
         
         # Key metrics
         ticker_data = sa.data[selected_ticker]['Close'].dropna()
@@ -324,7 +324,7 @@ def main():
     
     # Tab 2: Technical Analysis
     with tab2:
-        st.header(f"📈 {selected_ticker} Technical Analysis")
+        st.header(f"{selected_ticker} Technical Analysis")
         
         df_tech = sa.calculate_technical_indicators(ticker_index)
         latest = df_tech.iloc[-1]
@@ -332,14 +332,14 @@ def main():
         # Technical indicators metrics
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            rsi_color = "🔴" if latest['RSI'] > 70 else "🟢" if latest['RSI'] < 30 else "🟡"
-            st.metric("RSI", f"{latest['RSI']:.2f}", rsi_color)
+            rsi_status = "Overbought" if latest['RSI'] > 70 else "Oversold" if latest['RSI'] < 30 else "Neutral"
+            st.metric("RSI", f"{latest['RSI']:.2f}", rsi_status)
         with col2:
             st.metric("MACD", f"{latest['MACD']:.2f}")
         with col3:
             st.metric("SMA 50", f"${latest['SMA_50']:.2f}")
         with col4:
-            trend = "📈 Bullish" if latest['Close'] > latest['SMA_50'] else "📉 Bearish"
+            trend = "Bullish" if latest['Close'] > latest['SMA_50'] else "Bearish"
             st.metric("Trend", trend)
         
         # Technical chart
@@ -347,7 +347,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
         
         # Indicator explanations
-        with st.expander("ℹ️ Technical Indicators Explained"):
+        with st.expander("Technical Indicators Explained"):
             st.markdown("""
             **RSI (Relative Strength Index)**
             - Above 70: Overbought (potential sell signal)
@@ -364,7 +364,7 @@ def main():
     
     # Tab 3: ML Predictions
     with tab3:
-        st.header(f"🤖 {selected_ticker} Machine Learning Predictions")
+        st.header(f"{selected_ticker} Machine Learning Predictions")
         
         y_test, y_pred, score, model = sa.calculate_ml_model(ticker_index)
         from sklearn.metrics import mean_squared_error, mean_absolute_error
@@ -400,7 +400,7 @@ def main():
             st.metric("Expected Change", f"{price_change:+.2f}%", delta_color=delta_color)
         
         # Model coefficients
-        with st.expander("📊 Model Details"):
+        with st.expander("Model Details"):
             features = ['Open', 'High', 'Low', 'Volume']
             coef_df = pd.DataFrame({
                 'Feature': features + ['Intercept'],
@@ -410,7 +410,7 @@ def main():
     
     # Tab 4: Risk Metrics
     with tab4:
-        st.header(f"📉 {selected_ticker} Risk & Performance Metrics")
+        st.header(f"{selected_ticker} Risk & Performance Metrics")
         
         risk_metrics = sa.calculate_risk_metrics(ticker_index)
         
@@ -454,7 +454,7 @@ def main():
     
     # Tab 5: Full Report
     with tab5:
-        st.header(f"📋 {selected_ticker} Comprehensive Report")
+        st.header(f"{selected_ticker} Comprehensive Report")
         
         # Generate downloadable report
         report_text = f"""
@@ -495,7 +495,7 @@ Expected Change: {price_change:+.2f}%
         st.text_area("Full Report", report_text, height=400)
         
         st.download_button(
-            label="📥 Download Report",
+            label="Download Report",
             data=report_text,
             file_name=f"{selected_ticker}_analysis_report.txt",
             mime="text/plain"
